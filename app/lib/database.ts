@@ -1,4 +1,4 @@
-import initSqlJs, { Database } from "sql.js";
+import initSqlJs, { Database, SqlValue } from "sql.js";
 
 let db: Database | null = null;
 
@@ -1209,7 +1209,7 @@ export async function updateLocalizationByKey(
   }
 
   const updates: string[] = [];
-  const values: any[] = [];
+  const values: unknown[] = [];
 
   if (translations.es !== undefined) {
     updates.push("es = ?");
@@ -1242,7 +1242,7 @@ export async function updateLocalizationByKey(
     SET ${updates.join(", ")}, updated_at = datetime('now')
     WHERE key = ?
   `,
-    values
+    values as SqlValue[]
   );
 
   saveDatabaseToLocalStorage();
